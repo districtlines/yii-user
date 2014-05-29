@@ -23,7 +23,7 @@ $this->menu=array(
 		'username',
 	);
 	
-	$profileFields=ProfileField::model()->forOwner()->sort()->findAll();
+	$profileFields=ProfileField::model()->forAdminView()->sort()->findAll();
 	if ($profileFields) {
 		foreach($profileFields as $field) {
 			array_push($attributes,array(
@@ -58,3 +58,7 @@ $this->menu=array(
 	
 
 ?>
+
+<?php 
+/* $this->widget('application.extensions.hoauth.widgets.HOAuthProfile', array('user' => $model)); */
+$this->widget('application.extensions.hoauth.widgets.HConnectedNetworks', array('user' => $model)); ?>

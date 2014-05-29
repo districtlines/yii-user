@@ -1,79 +1,55 @@
 <?php
+$cs = Yii::app()->getClientScript();
+Yii::app()->clientScript->registerCSSFile(Yii::app()->theme->baseUrl . '/css/login.css',"screen");
+
 $this->pageTitle=Yii::app()->name . ' - '.UserModule::t("Login");
 $this->breadcrumbs=array(
 	UserModule::t("Login"),
 );
-?>
-
-<h1><?php echo UserModule::t("Login"); ?></h1>
-
-<?php if(Yii::app()->user->hasFlash('loginMessage')): ?>
-
-<div class="success">
+$errorSummary = CHtml::errorSummary($model);
+if(isset($errorSummary) && !empty($errorSummary)){ ?>
+<div class="alert alert-error fade in">
+	<?php echo $errorSummary; ?>
+</div>
+<?php } ?>
+<?php if(Yii::app()->user->hasFlash('loginMessage')){ ?>
+<div class="alert alert-info">
 	<?php echo Yii::app()->user->getFlash('loginMessage'); ?>
 </div>
+<?php } ?>
 
-<?php endif; ?>
-
-<p><?php echo UserModule::t("Please fill out the following form with your login credentials:"); ?></p>
-
-<div class="form">
-<?php echo CHtml::beginForm(); ?>
-
-	<p class="note"><?php echo UserModule::t('Fields with <span class="required">*</span> are required.'); ?></p>
-	
-	<?php echo CHtml::errorSummary($model); ?>
-	
-	<div class="row">
-		<?php echo CHtml::activeLabelEx($model,'username'); ?>
-		<?php echo CHtml::activeTextField($model,'username') ?>
-	</div>
-	
-	<div class="row">
-		<?php echo CHtml::activeLabelEx($model,'password'); ?>
-		<?php echo CHtml::activePasswordField($model,'password') ?>
-	</div>
-	
-	<div class="row">
-		<p class="hint">
-		<?php echo CHtml::link(UserModule::t("Register"),Yii::app()->getModule('user')->registrationUrl); ?> | <?php echo CHtml::link(UserModule::t("Lost Password?"),Yii::app()->getModule('user')->recoveryUrl); ?>
-		</p>
-	</div>
-	
-	<div class="row rememberMe">
-		<?php echo CHtml::activeCheckBox($model,'rememberMe'); ?>
-		<?php echo CHtml::activeLabelEx($model,'rememberMe'); ?>
-	</div>
-
-	<div class="row submit">
-		<?php echo CHtml::submitButton(UserModule::t("Login")); ?>
-	</div>
-	
-<?php echo CHtml::endForm(); ?>
-</div><!-- form -->
-
-
-<?php
-$form = new CForm(array(
-    'elements'=>array(
-        'username'=>array(
-            'type'=>'text',
-            'maxlength'=>32,
-        ),
-        'password'=>array(
-            'type'=>'password',
-            'maxlength'=>32,
-        ),
-        'rememberMe'=>array(
-            'type'=>'checkbox',
-        )
-    ),
-
-    'buttons'=>array(
-        'login'=>array(
-            'type'=>'submit',
-            'label'=>'Login',
-        ),
-    ),
-), $model);
-?>
+<div class="login-container" style="width:280px;">
+	<?php echo CHtml::beginForm('/user/login', 'post'); ?>
+		<div class="well-login">
+			<div class="control-group">
+				<div class="controls">
+					<div>
+						<?php echo CHtml::activeTextField($model,'username', array('class'=> 'login-input user-name', 'placeholder'=>'Username')); ?>
+					</div>
+				</div>
+			</div>
+			<div class="control-group">
+				<div class="controls">
+					<div>
+						<?php echo CHtml::activePasswordField($model,'password', array('class'=> 'login-input user-pass', 'placeholder'=>'Password')); ?>
+					</div>
+				</div>
+			</div>
+			<div class="clearfix">
+				<?php echo CHtml::submitButton(UserModule::t("Login"), array('class'=>'btn btn-inverse login-btn')); ?>
+			</div>
+			<div class="hint">
+				<p><?php if(0 && !isset($hideRegisterLink)){ echo CHtml::link(UserModule::t("Register"),Yii::app()->getModule('user')->registrationUrl); ?> | <?php } ?><?php echo CHtml::link(UserModule::t("Lost Password?"),Yii::app()->getModule('user')->recoveryUrl); ?></p>
+			</div>
+			<div class="remember-me">
+				<div class="left">
+					<?php echo CHtml::activeCheckBox($model,'rememberMe', array('style'=> 'margin: 0 0 2px;')); ?> Remember Me
+				</div>
+				<div class="right">
+					<?php // echo CHtml::link(UserModule::t("Lost Password?"),Yii::app()->getModule('user')->recoveryUrl); ?>
+				</div>
+				<div class="clear clearfix"></div>
+			</div>
+		</div>
+	<?php echo CHtml::endForm(); ?>
+</div>

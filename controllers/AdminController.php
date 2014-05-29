@@ -1,6 +1,6 @@
 <?php
 
-class AdminController extends Controller
+class AdminController extends GxController
 {
 	public $defaultAction = 'admin';
 	public $layout='//layouts/column2';
@@ -25,7 +25,7 @@ class AdminController extends Controller
 	{
 		return array(
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete','create','update','view'),
+				'actions'=>array('admin','delete','create','update','view','oauthadmin'),
 				'users'=>UserModule::getAdmins(),
 			),
 			array('deny',  // deny all users
@@ -33,6 +33,18 @@ class AdminController extends Controller
 			),
 		);
 	}
+	
+	public function actions(){
+		return array(
+			'oauth' => array(
+				'class'=>'application.extensions.hoauth.HOAuthAction',
+			),
+			'oauthadmin' => array(
+				'class'=>'application.extensions.hoauth.HOAuthAdminAction',
+			),
+		);
+	}
+	
 	/**
 	 * Manages all models.
 	 */
@@ -64,6 +76,10 @@ class AdminController extends Controller
 	public function actionView()
 	{
 		$model = $this->loadModel();
+
+		$updateUserContacts = Yii::app()->UpdateUserContacts;
+		$updateUserContacts->restoreAuthSessions($model->id);
+
 		$this->render('view',array(
 			'model'=>$model,
 		));

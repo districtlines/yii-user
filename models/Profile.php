@@ -74,10 +74,10 @@ class Profile extends UActiveRecord
 						array_push($rules,$field_rule);
 					}
 				} elseif ($field->field_type=='DATE') {
-                    if ($field->required)
-                        $field_rule = array($field->varname, 'date', 'format' => array('yyyy-mm-dd'));
-                    else
-                        $field_rule = array($field->varname, 'date', 'format' => array('yyyy-mm-dd','0000-00-00'), 'allowEmpty'=>true);
+					if ($field->required)
+						$field_rule = array($field->varname, 'date', 'format' => array('yyyy-mm-dd'));
+					else
+						$field_rule = array($field->varname, 'date', 'format' => array('yyyy-mm-dd','0000-00-00'), 'allowEmpty'=>true);
 
 					if ($field->error_message) $field_rule['message'] = UserModule::t($field->error_message);
 					array_push($rules,$field_rule);

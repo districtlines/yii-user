@@ -1,8 +1,9 @@
 <?php
 
-class RegistrationController extends Controller
+class RegistrationController extends GxController
 {
 	public $defaultAction = 'registration';
+	public $layout='//layouts/column1';
 	
 	/**
 	 * Declares class-based actions.

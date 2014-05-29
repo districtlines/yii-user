@@ -17,7 +17,7 @@
  * The followings are the available model relations:
  * @property Profile $profiles
  */
-class User extends CActiveRecord
+class User extends GxActiveRecord
 {
 	const STATUS_NOACTIVE=0;
 	const STATUS_ACTIVE=1;
@@ -37,8 +37,8 @@ class User extends CActiveRecord
 	 * @var integer $lastvisit
 	 * @var integer $superuser
 	 * @var integer $status
-	 * @var timestamp $create_at
-	 * @var timestamp $lastvisit_at
+     * @var timestamp $create_at
+     * @var timestamp $lastvisit_at
 	 */
 
 	/**
@@ -74,8 +74,8 @@ class User extends CActiveRecord
 			array('username', 'match', 'pattern' => '/^[A-Za-z0-9_]+$/u','message' => UserModule::t("Incorrect symbols (A-z0-9).")),
 			array('status', 'in', 'range'=>array(self::STATUS_NOACTIVE,self::STATUS_ACTIVE,self::STATUS_BANNED)),
 			array('superuser', 'in', 'range'=>array(0,1)),
-			array('create_at', 'default', 'value' => date('Y-m-d H:i:s'), 'setOnEmpty' => true, 'on' => 'insert'),
-			array('lastvisit_at', 'default', 'value' => '0000-00-00 00:00:00', 'setOnEmpty' => true, 'on' => 'insert'),
+            array('create_at', 'default', 'value' => date('Y-m-d H:i:s'), 'setOnEmpty' => true, 'on' => 'insert'),
+            array('lastvisit_at', 'default', 'value' => '0000-00-00 00:00:00', 'setOnEmpty' => true, 'on' => 'insert'),
 			array('username, email, superuser, status', 'required'),
 			array('superuser, status', 'numerical', 'integerOnly'=>true),
 			array('id, username, password, email, activkey, create_at, lastvisit_at, superuser, status', 'safe', 'on'=>'search'),
@@ -97,7 +97,8 @@ class User extends CActiveRecord
         $relations = Yii::app()->getModule('user')->relations;
         if (!isset($relations['profile']))
             $relations['profile'] = array(self::HAS_ONE, 'Profile', 'user_id');
-        return $relations;
+            $relations['VendorGenreAssociation'] = array(self::HAS_MANY, 'VendorGenreAssociation', 'vendor_user_id');
+       return $relations;
 	}
 
 	/**
@@ -107,8 +108,8 @@ class User extends CActiveRecord
 	{
 		return array(
 			'id' => UserModule::t("Id"),
-			'username'=>UserModule::t("username"),
-			'password'=>UserModule::t("password"),
+			'username'=>UserModule::t("Username"),
+			'password'=>UserModule::t("Password"),
 			'verifyPassword'=>UserModule::t("Retype Password"),
 			'email'=>UserModule::t("E-mail"),
 			'verifyCode'=>UserModule::t("Verification Code"),

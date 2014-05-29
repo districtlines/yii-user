@@ -106,6 +106,10 @@ class ProfileField extends CActiveRecord
 	public function scopes()
     {
         return array(
+            'forAdminView'=>array(
+                'condition'=>'visible>=0',
+                'order'=>'position',
+            ),
             'forAll'=>array(
                 'condition'=>'visible='.self::VISIBLE_ALL,
                 'order'=>'position',

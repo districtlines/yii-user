@@ -1,6 +1,6 @@
 <?php
 
-class ProfileController extends Controller
+class ProfileController extends GxController
 {
 	public $defaultAction = 'profile';
 	public $layout='//layouts/column2';
@@ -15,12 +15,19 @@ class ProfileController extends Controller
 	public function actionProfile()
 	{
 		$model = $this->loadUser();
-	    $this->render('profile',array(
-	    	'model'=>$model,
+		$this->render('profile',array(
+			'model'=>$model,
 			'profile'=>$model->profile,
-	    ));
+		));
 	}
 
+	public function actions(){
+		return array(
+			'oauth' => array(
+				'class'=>'application.extensions.hoauth.HOAuthAction',
+			),
+		);
+	}
 
 	/**
 	 * Updates a particular model.

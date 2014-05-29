@@ -10,6 +10,8 @@
 
 class UserModule extends CWebModule
 {
+	public $defaultController = 'User';
+	public $navType				= null;
 	/**
 	 * @var int
 	 * @desc items on page
@@ -92,13 +94,14 @@ class UserModule extends CWebModule
 	 */
 	//public $cacheEnable = false;
 	
-	public $tableUsers = '{{users}}';
-	public $tableProfiles = '{{profiles}}';
-	public $tableProfileFields = '{{profiles_fields}}';
+	public $tableUsers = 'vendor_login';
+	public $tableProfiles = 'vendor_profiles';
+	public $tableProfileFields = 'vendor_profile_fields';
 
     public $defaultScope = array(
             'with'=>array('profile'),
     );
+    public $salt;
 	
 	static private $_user;
 	static private $_users=array();
@@ -160,12 +163,14 @@ class UserModule extends CWebModule
 	/**
 	 * @return hash string.
 	 */
-	public static function encrypting($string="") {
-		$hash = Yii::app()->getModule('user')->hash;
+	public static function encrypting($string="", $hash = null) {
+		$hash = empty($hash) ? Yii::app()->getModule('user')->hash : $hash;
 		if ($hash=="md5")
 			return md5($string);
 		if ($hash=="sha1")
 			return sha1($string);
+		if ($hash=="salt")
+			return md5($string . Yii::app()->getModule('user')->salt);
 		else
 			return hash($hash,$string);
 	}
