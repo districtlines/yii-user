@@ -26,10 +26,9 @@ $this->widget('application.extensions.fancybox.EFancyBox', array(
 	),
 ));
 
-$this->beginClip('sidebar');
+//$this->beginClip('sidebar');
 ?>
-<?php $this->widget('application.extensions.hoauth.widgets.HOAuth', array('user' => $model)) ?>
-<?php $this->endClip(); ?>
+<?php // $this->endClip(); ?>
 <section class="row-fluid">
 	<section class="col-xs-12" style="padding: 0px 5px;">
 		<div class="nonboxy-widget faq">
@@ -90,6 +89,7 @@ $this->beginClip('sidebar');
 					</tr>
 -->
 				</table>
+<?php  $this->widget('application.extensions.hoauthCustomWidgets.EHOAuth', array('user' => $model)) ?>
 			</div>
 		</div>
 	</section>

@@ -52,4 +52,5 @@ if(isset($errorSummary) && !empty($errorSummary)){ ?>
 			</div>
 		</div>
 	<?php echo CHtml::endForm(); ?>
+	<?php $this->widget('application.extensions.hoauth.widgets.HOAuth'); ?>
 </div>
